@@ -1,10 +1,17 @@
 'use strict'
 
-const fs = require('fs')
-const path = require('path')
+const mime = require('mime-types')
+const S3 = require('aws-sdk/clients/s3')
 const { send, json } = require('micro')
 const Filter = require('instagram_js_filter')
 const effects = new Filter()
+
+const s3 = new S3({
+  region: 'us-west-2',
+  params: { Bucket: 'medellinjs-microservicios' },
+  accessKeyId: process.env.AWS_ACCESS_KEY,
+  secretAccessKey: process.env.AWS_SECRET_KEY
+})
 
 //
 // This microservice will be served as /save
@@ -19,40 +26,49 @@ module.exports = async function (req, res) {
   const body = await json(req)
   const { name, filter } = body
 
-  let image
+  let image, result
   try {
     image = await convert(name, filter)
-    await save(name, image)
+    result = await s3move(name, image)
   } catch (e) {
+    console.log(e.stack)
     return send(res, 500, e.message)
   }
 
-  send(res, 200, { name: name, src: `/saved/${name}` })
+  send(res, 200, { name: name, src: result.Location })
 }
 
 //
 // Convert an image and applies a filter
 //
-function convert (src, filter) {
+function convert (name, filter) {
   return new Promise((resolve, reject) => {
-    fs.readFile(path.join(__dirname, 'uploads', src), (err, buffer) => {
+    s3.getObject({
+      Key: `uploads/${name}`
+    }, (err, result) => {
       if (err) return reject(err)
 
-      const result = effects.apply(buffer, filter, {})
-      resolve(result)
+      const image = effects.apply(result.Body, filter, {})
+
+      resolve(new Buffer(image, 'base64'))
     })
   })
 }
 
 //
-// Saves an image to the file system
+// Saves an image to s3
 //
-function save (name, image) {
+function s3move (name, data) {
   return new Promise((resolve, reject) => {
-    fs.writeFile(path.join(__dirname, 'saved', name), new Buffer(image, 'base64'), (err) => {
+    s3.upload({
+      Key: `saved/${name}`,
+      Body: data,
+      ACL: 'public-read',
+      ContentType: mime.lookup(name)
+    }, (err, result) => {
       if (err) return reject(err)
 
-      resolve()
+      resolve(result)
     })
   })
 }
