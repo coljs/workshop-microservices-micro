@@ -15,3 +15,17 @@ $ npm install -g micro
 ```
 $ micro name-of-microservice.js
 ```
+
+## Testing with curl
+
+### Upload an image
+
+```
+$ curl -F "file=@./image.jpg" http://localhost:3000/
+```
+
+### Preview & Save
+
+```
+$ curl -X POST -d "{\"image\": \"xxxxxx-xxxx-xxxx-xxxx-xxxxxx.jpg\", \"filter\": \"sepia\"}" http://localhost:3000/
+```
