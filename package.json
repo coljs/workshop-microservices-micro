@@ -1,0 +1,23 @@
+{
+  "name": "microservices-demo",
+  "version": "1.0.0",
+  "description": "A microservices demo using Zeit's micro",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/julianduque/microservices-demo.git"
+  },
+  "author": "Julian Duque <julianduquej@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/julianduque/microservices-demo/issues"
+  },
+  "homepage": "https://github.com/julianduque/microservices-demo#readme",
+  "dependencies": {
+    "instagram_js_filter": "^1.4.0",
+    "is-image": "^1.0.1",
+    "micro": "^7.3.2",
+    "micro-upload": "^1.0.0",
+    "mime-types": "^2.1.15",
+    "uuid": "^3.0.1"
+  }
+}
