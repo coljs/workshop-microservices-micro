@@ -1,11 +1,17 @@
 'use strict'
 
-const fs = require('fs')
-const path = require('path')
 const mime = require('mime-types')
+const S3 = require('aws-sdk/clients/s3')
 const { send, json } = require('micro')
 const Filter = require('instagram_js_filter')
 const effects = new Filter()
+
+const s3 = new S3({
+  region: 'us-west-2',
+  params: { Bucket: 'medellinjs-microservicios' },
+  accessKeyId: process.env.AWS_ACCESS_KEY,
+  secretAccessKey: process.env.AWS_SECRET_KEY
+})
 
 //
 // This microservice will be served as /preview
@@ -36,13 +42,16 @@ module.exports = async function (req, res) {
 //
 // Convert an image and applies a filter
 //
-function convert (src, filter) {
+function convert (name, filter) {
   return new Promise((resolve, reject) => {
-    fs.readFile(path.join(__dirname, 'uploads', src), (err, buffer) => {
+    s3.getObject({
+      Key: `uploads/${name}`
+    }, (err, result) => {
       if (err) return reject(err)
 
-      const result = effects.apply(buffer, filter, {})
-      resolve(result)
+      const image = effects.apply(result.Body, filter, {})
+
+      resolve(new Buffer(image, 'base64'))
     })
   })
 }

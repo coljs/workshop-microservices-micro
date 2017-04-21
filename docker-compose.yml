@@ -1,0 +1,27 @@
+web:
+  image: nginx
+  links:
+    - upload
+    - preview
+    - save
+  ports:
+    - "8000:80"
+  volumes:
+    - ./microservices.conf:/etc/nginx/conf.d/microservices.conf
+  command: [nginx, '-g', 'daemon off;']
+
+upload:
+  build: ./upload
+  environment:
+    - AWS_ACCESS_KEY=${AWS_ACCESS_KEY}
+    - AWS_SECRET_KEY=${AWS_SECRET_KEY}
+preview:
+  build: ./preview
+  environment:
+    - AWS_ACCESS_KEY=${AWS_ACCESS_KEY}
+    - AWS_SECRET_KEY=${AWS_SECRET_KEY}
+save:
+  build: ./save
+  environment:
+    - AWS_ACCESS_KEY=${AWS_ACCESS_KEY}
+    - AWS_SECRET_KEY=${AWS_SECRET_KEY}

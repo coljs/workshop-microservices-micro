@@ -16,6 +16,7 @@
   },
   "homepage": "https://github.com/julianduque/microservices-demo#readme",
   "dependencies": {
+    "aws-sdk": "^2.43.0",
     "instagram_js_filter": "^1.4.0",
     "micro": "^7.3.2",
     "mime-types": "^2.1.15"
