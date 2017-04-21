@@ -1,0 +1,23 @@
+{
+  "name": "medjsmicro-preview",
+  "version": "1.0.0",
+  "description": "A microservices demo using Zeit's micro",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/julianduque/microservices-demo.git"
+  },
+  "author": "Julian Duque <julianduquej@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "now-start": "micro image-preview.js"
+  },
+  "bugs": {
+    "url": "https://github.com/julianduque/microservices-demo/issues"
+  },
+  "homepage": "https://github.com/julianduque/microservices-demo#readme",
+  "dependencies": {
+    "instagram_js_filter": "^1.4.0",
+    "micro": "^7.3.2",
+    "mime-types": "^2.1.15"
+  }
+}

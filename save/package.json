@@ -1,5 +1,5 @@
 {
-  "name": "microservices-demo",
+  "name": "medjsmicro-save",
   "version": "1.0.0",
   "description": "A microservices demo using Zeit's micro",
   "repository": {
@@ -8,6 +8,9 @@
   },
   "author": "Julian Duque <julianduquej@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "now-start": "micro image-save.js"
+  },
   "bugs": {
     "url": "https://github.com/julianduque/microservices-demo/issues"
   },
@@ -15,10 +18,7 @@
   "dependencies": {
     "aws-sdk": "^2.43.0",
     "instagram_js_filter": "^1.4.0",
-    "is-image": "^1.0.1",
     "micro": "^7.3.2",
-    "micro-upload": "^1.0.0",
-    "mime-types": "^2.1.15",
-    "uuid": "^3.0.1"
+    "mime-types": "^2.1.15"
   }
 }
