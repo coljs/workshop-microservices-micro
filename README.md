@@ -29,3 +29,26 @@ $ curl -F "file=@./image.jpg" http://localhost:3000/
 ```
 $ curl -X POST -d "{\"image\": \"xxxxxx-xxxx-xxxx-xxxx-xxxxxx.jpg\", \"filter\": \"sepia\"}" http://localhost:3000/
 ```
+
+## Docker
+
+### Build Images
+
+```
+$ docker build upload -t micro-upload
+$ docker build preview -t micro-preview
+$ docker build save -t micro-save
+$ docker build nginx -t micro-nginx
+```
+
+or run
+
+```
+$ ./build-images.sh
+```
+
+## Run with `docker-compose`
+
+```
+$ docker-compose up -d
+```
